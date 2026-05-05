@@ -314,15 +314,23 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;dis
       <h1 class="hero-title">Primer<br>Semestre<br><span>FY2026</span></h1>
       <p class="hero-sub">Octubre 2025 a marzo 2026. Seis meses en los que Tyson estuvo donde tenía que estar: Halloween, temporada navideña y Super Bowl.</p>
       <div class="hero-stats">
-        <div class="hs"><div class="v">8.3M</div><div class="l">Alcance Meta</div></div>
-        <div class="hs"><div class="v">685K</div><div class="l">Views 6s TikTok</div></div>
-        <div class="hs"><div class="v">576K</div><div class="l">Interacciones Meta</div></div>
+        <div class="hs">
+          <div class="v">8.3M</div><div class="l">Alcance Meta</div>
+          <div class="v" style="font-size:16px;color:#F9A8D4;margin-top:6px">$9.89</div>
+          <div class="l" style="color:rgba(255,255,255,.45);font-size:9px">CPM IG x1,000</div>
+        </div>
+        <div class="hs">
+          <div class="v">685K</div><div class="l">Views 6s TikTok</div>
+          <div class="v" style="font-size:16px;color:#FF8FB0;margin-top:6px">$0.12</div>
+          <div class="l" style="color:rgba(255,255,255,.45);font-size:9px">CPV 6s</div>
+        </div>
+        <div class="hs">
+          <div class="v">576K</div><div class="l">Interacciones Meta</div>
+          <div class="v" style="font-size:16px;color:#93C5FD;margin-top:6px">$0.19</div>
+          <div class="l" style="color:rgba(255,255,255,.45);font-size:9px">Costo/Interacción FB</div>
+        </div>
         <div class="hs"><div class="v">$196K</div><div class="l">Inversión Total MXN</div></div>
         <div class="hs"><div class="v">928</div><div class="l">Nuevos Seguidores TK</div></div>
-        <div style="width:1px;background:rgba(255,255,255,.18);align-self:stretch;margin:0 6px;"></div>
-        <div class="hs"><div class="v" style="font-size:20px;color:#F9A8D4">$9.89</div><div class="l" style="color:rgba(255,255,255,.55)">CPM IG (x1K)</div></div>
-        <div class="hs"><div class="v" style="font-size:20px;color:#93C5FD">$0.19</div><div class="l" style="color:rgba(255,255,255,.55)">Costo/Interacción FB</div></div>
-        <div class="hs"><div class="v" style="font-size:20px;color:#FF8FB0">$0.12</div><div class="l" style="color:rgba(255,255,255,.55)">CPV 6s TikTok</div></div>
       </div>
       <div class="hero-camps">
         <div class="hc-pill sp">👻 Spooky Nuggets</div>
@@ -1065,21 +1073,22 @@ const line=(label,data,color,o={})=>({label,data,borderColor:color,backgroundCol
 
 function mk(id,type,labels,datasets,extra={}){
   const el=document.getElementById(id);
-  if(!el)return;
-  new Chart(el,{type,data:{labels,datasets},options:opts(extra)});
+  if(!el)return null;
+  const ch=new Chart(el,{type,data:{labels,datasets},options:opts(extra)});
+  return ch;
 }
 
 window.addEventListener('load',()=>{
   // ── OVERVIEW ──
-  mk('c-ov-reach','bar',MONTHS,[
+  OV_CHARTS['reach']=mk('c-ov-reach','bar',MONTHS,[
     bar('Instagram',[1382017,0,477962,1481377,1552358,358757],IG),
     bar('Facebook',[868973,0,700342,368345,545520,39811],FB)
   ]);
-  mk('c-ov-eng','bar',MONTHS,[
+  OV_CHARTS['eng']=mk('c-ov-eng','bar',MONTHS,[
     bar('Instagram',[150720,0,6241,18864,32216,966],IG),
     bar('Facebook',[322351,0,1709,14393,20701,1432],FB)
   ]);
-  mk('c-ov-tt','bar',MONTHS,[
+  OV_CHARTS['tt']=mk('c-ov-tt','bar',MONTHS,[
     bar('Views 6s',[192638,37334,0,48280,406730,0],TK),
     bar('Views Totales',[1997945,389441,0,637356,5095732,0],PURPLE)
   ]);
@@ -1838,15 +1847,7 @@ function toggleOvChart(id, mode) {
   }
 }
 
-// Capture chart instances after mk() runs
-const _mkOrig = mk;
-function mk(id,type,labels,datasets,extra={}) {
-  _mkOrig(id,type,labels,datasets,extra);
-  if(['c-ov-reach','c-ov-eng','c-ov-tt'].includes(id)) {
-    const key = id==='c-ov-reach'?'reach':id==='c-ov-eng'?'eng':'tt';
-    OV_CHARTS[key] = Chart.getChart(document.getElementById(id));
-  }
-}
+
 
 
 </script>
